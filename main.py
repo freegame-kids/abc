@@ -4,8 +4,6 @@ import requests
 import os
 from dotenv import load_dotenv
 from pathlib import Path
-from ibm_watson import TextToSpeechV1
-from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
 pygame.init()
 
@@ -32,13 +30,6 @@ def display_string(text):
 
 
 def play_string(text):
-    # setup service
-    authenticator = IAMAuthenticator(ibm_watson_apikey)
-    # Create our service
-    tts = TextToSpeechV1(authenticator=authenticator)
-    # set the IBM service url
-    tts.set_service_url(ibm_watson_url)
-
     audio_path = "audios/" + text + '.wav'
     if not Path(audio_path).exists():
         print("Translating the {} to audio...".format(text))
@@ -46,7 +37,7 @@ def play_string(text):
             payload = {'text': text}
             headers = {'Accept': 'audio/wav'}
             response = requests.get(ibm_watson_url + "/v1/synthesize",
-                                    auth=('apikey', 'rv1qEAjvahECnsgf4dXkSmXcoDOBoxjzoj7kPVJTEaFU'),
+                                    auth=('apikey', ibm_watson_apikey),
                                     headers=headers,
                                     params=payload)
             response.raise_for_status()  # ensure we notice bad responses
