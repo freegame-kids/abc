@@ -50,14 +50,18 @@ def play_string(text):
     s.play()
 
 
-while 1:
+game_running = True
+while game_running:
     # gets a single event from the event queue
     event = pygame.event.wait()
     for event in pygame.event.get():
+        print(f'event.type: {event.type}')
         if event.type == pygame.QUIT: # if the 'close' button of the window is pressed
             play_string("good bye")
-            sys.exit()
-        elif event.type == pygame.TEXTINPUT: # Detects the 'INPUT' events
+            game_running = False
+        if event.type == pygame.KEYDOWN:
+            print(pygame.key.name(event.key))
+        if event.type == pygame.TEXTINPUT: # Detects the 'INPUT' events
             # gets the key name
             key_name = event.text
             # # converts to uppercase the key name
@@ -65,6 +69,9 @@ while 1:
             print(u'"{}" key input'.format(key_name))
             display_string(key_name)
             play_string(key_name)
+    pygame.display.update()
 
+pygame.quit()
+sys.exit()
 
 
