@@ -1,3 +1,4 @@
+import pathlib
 import pygame
 import sys
 import requests
@@ -30,7 +31,8 @@ def display_string(text):
 
 
 def play_string(text):
-    audio_path = "audios/" + text + '.wav'
+    my_file = text + '.wav'
+    audio_path = pathlib.Path("./audios/", my_file)
     if not Path(audio_path).exists():
         print("Translating the {} to audio...".format(text))
         with open(audio_path, 'wb') as audio_file:
